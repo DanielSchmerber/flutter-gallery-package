@@ -29,7 +29,8 @@ class GalleryImage extends StatefulWidget {
   final bool showAppBar;
   final bool closeWhenSwipeUp;
   final bool closeWhenSwipeDown;
-
+  final Widget? navigateButton;
+  final void Function(int)? myFunctionVar;
   const GalleryImage({
     Key? key,
     required this.imageUrls,
@@ -53,6 +54,8 @@ class GalleryImage extends StatefulWidget {
     this.showAppBar = true,
     this.closeWhenSwipeUp = false,
     this.closeWhenSwipeDown = false,
+    this.navigateButton,
+    this.myFunctionVar,
   })  : assert(numOfShowImages <= imageUrls.length),
         super(key: key);
   @override
@@ -90,7 +93,7 @@ class _GalleryImageState extends State<GalleryImage> {
                   : GalleryItemThumbnail(
                       galleryItem: galleryItems[index],
                       onTap: () {
-                        _openImageFullScreen(index);
+                        openImageFullScreen(index);
                       },
                       loadingWidget: widget.loadingWidget,
                       errorWidget: widget.errorWidget,
@@ -103,7 +106,7 @@ class _GalleryImageState extends State<GalleryImage> {
   Widget _buildImageNumbers(int index) {
     return GestureDetector(
       onTap: () {
-        _openImageFullScreen(index);
+        openImageFullScreen(index);
       },
       child: Stack(
         alignment: AlignmentDirectional.center,
@@ -141,7 +144,8 @@ class _GalleryImageState extends State<GalleryImage> {
   }
 
 // to open gallery image in full screen
-  Future<void> _openImageFullScreen(int indexOfImage) async {
+  //make public
+  Future<void> openImageFullScreen(int indexOfImage) async {
     await Navigator.push(
       context,
       MaterialPageRoute(

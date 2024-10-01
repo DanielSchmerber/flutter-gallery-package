@@ -19,6 +19,8 @@ class GalleryImageViewWrapper extends StatefulWidget {
   final bool showAppBar;
   final bool closeWhenSwipeUp;
   final bool closeWhenSwipeDown;
+  final Widget? navigateButton;
+  final void Function(int)? navigateFunction;
 
   const GalleryImageViewWrapper({
     Key? key,
@@ -35,7 +37,7 @@ class GalleryImageViewWrapper extends StatefulWidget {
     required this.showListInGalley,
     required this.showAppBar,
     required this.closeWhenSwipeUp,
-    required this.closeWhenSwipeDown,
+    required this.closeWhenSwipeDown, this.navigateButton, this.navigateFunction,
   }) : super(key: key);
 
   @override
@@ -74,51 +76,61 @@ class _GalleryImageViewWrapperState extends State<GalleryImageViewWrapper> {
               title: Text(widget.titleGallery ?? "Gallery"),
             )
           : null,
+
       backgroundColor: widget.backgroundColor,
-      body: SafeArea(
-        child: Container(
-          constraints:
-              BoxConstraints.expand(height: MediaQuery.of(context).size.height),
-          child: Column(
-            children: [
-              Expanded(
-                child: GestureDetector(
-                  onVerticalDragEnd: (details) {
-                    if (widget.closeWhenSwipeUp &&
-                        details.primaryVelocity! < 0) {
-                      //'up'
-                      Navigator.of(context).pop();
-                    }
-                    if (widget.closeWhenSwipeDown &&
-                        details.primaryVelocity! > 0) {
-                      // 'down'
-                      Navigator.of(context).pop();
-                    }
-                  },
-                  child: PageView.builder(
-                    reverse: widget.reverse,
-                    controller: _controller,
-                    itemCount: widget.galleryItems.length,
-                    itemBuilder: (context, index) =>
-                        _buildImage(widget.galleryItems[index]),
+      body:
+      Stack(
+        children: [
+          SafeArea(
+            child: Container(
+              constraints:
+                  BoxConstraints.expand(height: MediaQuery.of(context).size.height),
+              child: Column(
+                children: [
+                  if (widget.navigateButton != null) GestureDetector(
+                    onTap: ()=> widget.navigateFunction!(_currentPage),
+                    child: widget.navigateButton!,
                   ),
-                ),
-              ),
-              if (widget.showListInGalley)
-                SizedBox(
-                  height: 80,
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: widget.galleryItems
-                          .map((e) => _buildLitImage(e))
-                          .toList(),
+                  Expanded(
+                    child: GestureDetector(
+                      onVerticalDragEnd: (details) {
+                        if (widget.closeWhenSwipeUp &&
+                            details.primaryVelocity! < 0) {
+                          //'up'
+                          Navigator.of(context).pop();
+                        }
+                        if (widget.closeWhenSwipeDown &&
+                            details.primaryVelocity! > 0) {
+                          // 'down'
+                          Navigator.of(context).pop();
+                        }
+                      },
+                      child: PageView.builder(
+                        reverse: widget.reverse,
+                        controller: _controller,
+                        itemCount: widget.galleryItems.length,
+                        itemBuilder: (context, index) =>
+                            _buildImage(widget.galleryItems[index]),
+                      ),
                     ),
                   ),
-                ),
-            ],
+                  if (widget.showListInGalley)
+                    SizedBox(
+                      height: 80,
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: widget.galleryItems
+                              .map((e) => _buildLitImage(e))
+                              .toList(),
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
