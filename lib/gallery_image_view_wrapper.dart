@@ -87,10 +87,6 @@ class _GalleryImageViewWrapperState extends State<GalleryImageViewWrapper> {
                   BoxConstraints.expand(height: MediaQuery.of(context).size.height),
               child: Column(
                 children: [
-                  if (widget.navigateButton != null) GestureDetector(
-                    onTap: ()=> widget.navigateFunction!(_currentPage),
-                    child: widget.navigateButton!,
-                  ),
                   Expanded(
                     child: GestureDetector(
                       onVerticalDragEnd: (details) {
@@ -126,6 +122,10 @@ class _GalleryImageViewWrapperState extends State<GalleryImageViewWrapper> {
                         ),
                       ),
                     ),
+                  if (widget.navigateButton != null) GestureDetector(
+                    onTap: ()=> widget.navigateFunction!(_currentPage),
+                    child: widget.navigateButton!,
+                  ),
                 ],
               ),
             ),
