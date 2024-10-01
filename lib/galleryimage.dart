@@ -30,7 +30,7 @@ class GalleryImage extends StatefulWidget {
   final bool closeWhenSwipeUp;
   final bool closeWhenSwipeDown;
   final Widget? navigateButton;
-  final void Function(int)? myFunctionVar;
+  final void Function(int)? navigateFunction;
   const GalleryImage({
     Key? key,
     required this.imageUrls,
@@ -55,7 +55,7 @@ class GalleryImage extends StatefulWidget {
     this.closeWhenSwipeUp = false,
     this.closeWhenSwipeDown = false,
     this.navigateButton,
-    this.myFunctionVar,
+    this.navigateFunction,
   })  : assert(numOfShowImages <= imageUrls.length),
         super(key: key);
   @override
@@ -164,6 +164,8 @@ class _GalleryImageState extends State<GalleryImage> {
           closeWhenSwipeUp: widget.closeWhenSwipeUp,
           closeWhenSwipeDown: widget.closeWhenSwipeDown,
           radius: widget.imageRadius,
+          navigateFunction: widget.navigateFunction,
+          navigateButton: widget.navigateButton,
         ),
       ),
     );
