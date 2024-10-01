@@ -143,6 +143,7 @@ class _GalleryImageState extends State<GalleryImage> {
         index == widget.numOfShowImages - 1;
   }
 
+
 // to open gallery image in full screen
   //make public
   Future<void> openImageFullScreen(int indexOfImage) async {

@@ -122,8 +122,8 @@ class _GalleryImageViewWrapperState extends State<GalleryImageViewWrapper> {
                         ),
                       ),
                     ),
-                  if (widget.navigateButton != null) GestureDetector(
-                    onTap: ()=> widget.navigateFunction!(_currentPage),
+                  if (widget.navigateButton != null) ElevatedButton(
+                    onPressed: ()=> widget.navigateFunction!(_currentPage),
                     child: widget.navigateButton!,
                   ),
                 ],
