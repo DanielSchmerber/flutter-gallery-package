@@ -53,11 +53,11 @@ class _GalleryImageViewWrapperState extends State<GalleryImageViewWrapper> {
 
   @override
   void initState() {
-    _currentPage = 0;
+    _currentPage = _controller.initialPage;
     _controller.addListener(() {
       setState(() {
 
-        _currentPage = _controller.page?.toInt() ?? _controller.initialPage;
+        _currentPage = _controller.page?.toInt() ?? 0;
       });
     });
     super.initState();
